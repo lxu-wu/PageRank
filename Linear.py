@@ -9,7 +9,7 @@ def PageRankLinear(A: np.matrix ,alpha: float ,v:np.array):
     x = np.matmul(v,np.array(pageRank_Two))
     return x / x.sum()
 
-def PageRankLinearSys(A, alpha, v):
+def PageRankLinearSys(A: np.matrix ,alpha: float ,v:np.array):
      transitionProbabilityMatrix = A / A.sum(axis=1)
      lenght = transitionProbabilityMatrix.shape[0]
 
@@ -18,3 +18,4 @@ def PageRankLinearSys(A, alpha, v):
      G = G/G.sum()
 
      return G
+
