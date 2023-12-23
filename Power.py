@@ -14,12 +14,12 @@ def googleMatrix(A: np.matrix, alpha: float, v: np.array):
     :param v (np.array): Vecteur de personnalisation. Il doit avoir la même longueur que le nombre de nœuds dans le graphe.
     :return np.array: Matrice google normalisée
     """
-    n = A.shape[0] # = len(A) taille de A (nxm matrice)
-    P = A / A.sum(axis=0)
+    n = len(A) # = len(A) taille de A (nxm matrice)
+    P = A / A.sum(axis=1)
     print(f"Matrice de probabilités de transition P: \n{P}")
-    e = np.ones(n) # vecteur-colonne de 1
-    G = alpha * A + (1 - alpha) * np.outer(e, v.transpose()) # calcule la matrice google (G)
-    return G
+    e = np.ones((n,1)) # vecteur-colonne de 1
+    G = alpha * P + (1 - alpha) * np.outer(e, np.transpose(v)) # calcule la matrice google (G)
+    return np.transpose(G)
 
 def pageRankPower(A : np.matrix, alpha : float, v : np.array):
     """
@@ -42,7 +42,7 @@ def pageRankPower(A : np.matrix, alpha : float, v : np.array):
         x_new = np.matmul(G,x) # G*x
         x_new = normalize(x_new) # normalise x
         print(f"Itérations de PageRank N°{i}\n" , np.array(x_new).flatten())
-        if np.linalg.norm(x_new - x) < tol: 
+        if np.linalg.norm(x_new - x) < tol:
             # si la distance euclidienne entre x et x_new
             # est strictement plus petite que la tolérence, 
             # alors l'algorithme est stable et le calcul est fini.
