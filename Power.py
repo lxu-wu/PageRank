@@ -1,42 +1,26 @@
 import numpy as np
 
-def normalize_vector(v):
-    """ Normalise un vecteur pour que sa somme soit égale à 1. """
+def normalize(v):
     return v / np.sum(v)
 
-def pageRankPower(A : np.matrix, alpha : float, v : np.array):
-    """
-    Calcule le PageRank en utilisant la méthode de puissance.
-
-    :param A: Matrice d'adjacence (doit être stochastique par colonnes).
-    :param alpha: Le facteur de téléportation.
-    :param v: Vecteur de personnalisation.
-    :param tol: La tolérance pour la convergence.
-    :param max_iter: Le nombre maximal d'itérations.
-    :return: Le vecteur des scores PageRank.
-    """
-    tol=1e-8
-    
-    # Nombre de noeuds dans le graphe
+def googleMatrix(A: np.matrix, alpha: float, v: np.array):
     n = A.shape[0]
-    
-    # Construire la matrice Google G
-    G = alpha * A + (1 - alpha) * np.outer(np.ones(n), v)
-    
-    # Initialiser le vecteur PageRank x
-    x = np.ones(n) / n
+    P = A / A.sum(axis=0)
+    e = np.ones(n)
+    G = alpha * P + (1 - alpha) * np.outer(e, v/sum(v))*n
+    return G
 
-    # Boucle d'itération de la méthode de puissance
-    while True:
-        x_new = G @ x  # Calculer le nouveau vecteur PageRank
-        x_new = normalize_vector(x_new)  # Normaliser avec la norme L1
-        
-        # Vérifier la convergence
+def pageRankPower(A : np.matrix, alpha : float, v : np.array):
+    tol=1e-8
+    n = A.shape[0]
+    G = googleMatrix(A,alpha,v)
+    x = np.ones(n) / n
+    while 1:
+        x_new = np.matmul(G,x)
+        x_new = normalize(x_new)
         if np.linalg.norm(x_new - x, 1) < tol:
             break
-        
         x = np.array(x_new).flatten()
-    
     return np.array(x_new).flatten()
 
 if __name__ == '__main__':
@@ -48,33 +32,3 @@ if __name__ == '__main__':
     result = pageRankPower(A,alpha,v)
 
     print(result)
-
-
-import numpy as np
-
-# def pageRankPower(A: np.matrix, alpha= 0.9, v = None):
-#     print("Matrice d'adjacense\n", A) # Imprimer la matrice d'adjacense A
-#     tolerance = 1e-8
-#     maxiterations = 500
-#     G = calculofG(A,alpha,v)
-#     x = (np.sum(A, axis=0) / np.sum(np.sum(A, axis=0))).reshape(-1, 1) # initialiser les scores par le le degré entrant (indegree) de chaque noeud 
-#     x = x / np.sum(x) # normaliser les scores
-#     for i in range(maxiterations):
-#         x_next = G.T @ x # P^T * x
-#         x_next /= np.sum(np.abs(x_next)) # x/||x||
-#         if i <= 3:
-#             print("Itérations de power methode N°",i, "\n" , np.array(x_next).flatten()) # Impression des trois premières itérations de la power method (vecteur de scores)
-#         if np.linalg.norm(x_next - x, ord=1) < tolerance:
-#             return np.array(x_next).flatten()
-#         x = x_next
-#     return np.array(x_next).flatten()
-
-# def calculofG(A: np.matrix, alpha: float, v: np.array):
-#     P = A / A.sum(axis=1)
-#     print("Matrice de Probabilité (P)\n", P) # Imprimer la matrice de probabilité P
-#     e = np.ones(len(A))
-#     if v is None:
-#         v = e / len(A)
-#     G = alpha * P + (1 - alpha) * np.outer(e, v/sum(v))
-#     print("Matrice Google (G)\n", G) # Imprimer la matrice Google G
-#     return G
