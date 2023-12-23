@@ -32,6 +32,7 @@ def pageRankPower(A : np.matrix, alpha : float, v : np.array):
     tol=1e-8 # tolérance
     n = A.shape[0]
     G = googleMatrix(A,alpha,v)
+    i = 0
     x = np.ones(n) / n
     print(f"Matrice adjacence A: \n{A}")
     print(f"Matrice Google G: \n{G}")

@@ -23,11 +23,14 @@ with open(vector_csv, 'r') as file:
         l+=1
 
 
-matrix_np = np.array(matrix)
+matrix_np = np.matrix(matrix)
 vector_np = np.array(vector)
 
 print(matrix_np)
 
+print("PageRank les informations pour la méthode power: ")
+print("PageRank final obtenu de la méthode power: ")
+print(pageRankPower(matrix_np, 0.9, vector_np))
 
 print("PageRank final obtenu de manière linéaire: ")
-print(PageRankLinearSys(matrix_np, 1, vector_np))
+print(PageRankLinearSys(matrix_np, 0.9, vector_np))
