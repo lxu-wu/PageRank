@@ -1,7 +1,6 @@
 import unittest
 import numpy as np
-from Linear import PageRankLinear
-from Power import pageRankPower
+from PageRank import PageRankLinear, pageRankPower
 
 
 class TestPageRankLinearFunction(unittest.TestCase):

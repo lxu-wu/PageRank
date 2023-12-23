@@ -1,7 +1,8 @@
 import csv
 import numpy as np
-from Linear import PageRankLinear
-from Power import pageRankPower
+from PageRank import PageRankLinear, pageRankPower
+# from Linear import PageRankLinear
+# from Power import pageRankPower
 
 matrix_csv = 'matrice_adgacence.csv'
 vector_csv = 'G15-personalisation_vector.csv'
@@ -26,11 +27,9 @@ with open(vector_csv, 'r') as file:
 matrix_np = np.matrix(matrix)
 vector_np = np.array(vector)
 
-print(matrix_np)
 
-print("PageRank les informations pour la méthode power: ")
-print("PageRank final obtenu de la méthode power: ")
-print(pageRankPower(matrix_np, 0.9, vector_np))
+print("PageRank les informations pour la méthode power: \n")
+print(pageRankPower(matrix_np, 0.9, vector_np), "\n")
 
 print("PageRank final obtenu de manière linéaire: ")
 print(PageRankLinear(matrix_np, 0.9, vector_np))
