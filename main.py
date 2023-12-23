@@ -1,6 +1,6 @@
 import csv
 import numpy as np
-from Linear import PageRankLinearSys
+from Linear import PageRankLinear
 from Power import pageRankPower
 
 matrix_csv = 'matrice_adgacence.csv'
@@ -33,4 +33,4 @@ print("PageRank final obtenu de la méthode power: ")
 print(pageRankPower(matrix_np, 0.9, vector_np))
 
 print("PageRank final obtenu de manière linéaire: ")
-print(PageRankLinearSys(matrix_np, 0.9, vector_np))
+print(PageRankLinear(matrix_np, 0.9, vector_np))
