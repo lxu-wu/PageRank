@@ -14,7 +14,7 @@ def googleMatrix(A: np.matrix, alpha: float, v: np.array):
         print(i)
 
     e = np.ones(n)
-    G = alpha * P + (1 - alpha) * np.outer(e, v/sum(v))*n
+    G = alpha * P + (1 - alpha) * np.outer(e, v.transpose())
     return G
 
 def pageRankPower(A : np.matrix, alpha : float, v : np.array):
