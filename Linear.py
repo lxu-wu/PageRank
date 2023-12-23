@@ -1,21 +1,39 @@
 import numpy as np
 
-
 def PageRankLinear(A: np.matrix ,alpha: float ,v:np.array):
-    M_norm = A / A.sum(axis=1)
+     """
+    Calcule le PageRank d'un graphe représenté par une matrice d'adjacence.
 
-    pageRank_One = np.identity(A.shape[0])-np.multiply(alpha,M_norm)
-    pageRank_Two = np.multiply((1-alpha),np.linalg.inv(pageRank_One))
-    x = np.matmul(v,np.array(pageRank_Two))
-    return x / x.sum()
+    
+    :param A (np.matrix): Matrice d'adjacence du graphe. Chaque élément A[i, j] représente un lien du nœud i au nœud j.
+    :param alpha (float): Facteur de téléportation 
+    :param v (np.array): Vecteur de personnalisation. Il doit avoir la même longueur que le nombre de nœuds dans le graphe.
+    :return np.array: Vecteur de PageRank normalisé pour le graphe, représentant l'importance de chaque nœud.
 
-def PageRankLinearSys(A: np.matrix ,alpha: float ,v:np.array):
-     transitionProbabilityMatrix = A / A.sum(axis=1)
-     lenght = transitionProbabilityMatrix.shape[0]
+    """
+     # Calcul de la matrice de transition de probabilité P à partir de la matrice d'adjacence A
+     P = A / A.sum(axis=1)
+     # Création de la matrice identité I de la même taille que P
+     I = np.identity(P.shape[0])
+     
+     # Formation de la matrice pour le système linéaire, en soustrayant alpha * P de I, puis en transposant le résultat
+     # Résolution du système linéaire pour obtenir le vecteur de PageRank
+     A = (I - np.multiply(alpha,P)).transpose()
+     PR = np.linalg.solve(A,v.transpose())
 
-     A = (np.identity(lenght) - np.multiply(alpha,transitionProbabilityMatrix)).transpose()
-     G = np.linalg.solve(A,v.transpose())
-     G = G/G.sum()
+     # Normalisation du vecteur de PageRank
+     # Retour du vecteur de PageRank normalisé 
+     PR = PR/PR.sum()
+     return PR.transpose()
 
-     return G
+
+if __name__ == '__main__':
+
+    A= np.matrix([[0,0,1],[2,0,1],[0,2,0]])
+    alpha = 0.9
+    v= np.array([1,2,3])
+
+    result = PageRankLinear(A,alpha,v)
+
+    print(result)
 
