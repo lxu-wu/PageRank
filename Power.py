@@ -41,7 +41,8 @@ def pageRankPower(A : np.matrix, alpha : float, v : np.array):
         i+=1 # nouvelle l'itération
         x_new = np.matmul(G,x) # G*x
         x_new = normalize(x_new) # normalise x
-        print(f"Itérations de PageRank N°{i}\n" , np.array(x_new).flatten())
+        if i <= 3:
+            print(f"Itérations de PageRank N°{i}\n" , np.array(x_new).flatten())
         if np.linalg.norm(x_new - x) < tol:
             # si la distance euclidienne entre x et x_new
             # est strictement plus petite que la tolérence, 
