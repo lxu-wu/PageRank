@@ -1,17 +1,5 @@
 import numpy as np
 
-def normalize_adjacency_matrix(A):
-    """
-    Normalise la matrice d'adjacence A pour qu'elle soit stochastique par colonnes.
-
-    :param A: Matrice d'adjacence.
-    :return: Matrice d'adjacence normalisée.
-    """
-    column_sums = np.sum(A, axis=0)
-    # Pour éviter la division par zéro, remplacer les zéros par des uns (ce qui ne change pas les colonnes nulles)
-    column_sums[column_sums == 0] = 1
-    return A / column_sums
-
 def normalize_vector(v):
     """ Normalise un vecteur pour que sa somme soit égale à 1. """
     return v / np.sum(v)
@@ -28,11 +16,7 @@ def pageRankPower(A : np.matrix, alpha : float, v : np.array):
     :return: Le vecteur des scores PageRank.
     """
     tol=1e-8
-    max_iter=100
     
-    v = normalize_vector(v)
-    A = normalize_adjacency_matrix(A)
-
     # Nombre de noeuds dans le graphe
     n = A.shape[0]
     
@@ -41,12 +25,9 @@ def pageRankPower(A : np.matrix, alpha : float, v : np.array):
     
     # Initialiser le vecteur PageRank x
     x = np.ones(n) / n
-    
-    print(G)
-    print(x)
 
     # Boucle d'itération de la méthode de puissance
-    for _ in range(2):
+    while True:
         x_new = G @ x  # Calculer le nouveau vecteur PageRank
         x_new = normalize_vector(x_new)  # Normaliser avec la norme L1
         
